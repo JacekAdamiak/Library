@@ -1,4 +1,8 @@
 package pl.javastart.library.io.file;
 
-public class FileManager {
+import pl.javastart.library.model.Library;
+
+public interface FileManager {
+    Library importData();
+    void exportData(Library library);
 }

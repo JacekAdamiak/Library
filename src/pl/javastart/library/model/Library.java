@@ -1,51 +1,50 @@
 package pl.javastart.library.model;
 
-public class Library {
+import pl.javastart.library.exception.PublicationAlreadyExistsException;
+import pl.javastart.library.exception.UserAlreadyExistsException;
 
-    private static final int MAX_BOOKS = 1000;
-    private static final int MAX_MAGAZINE = 1000;
-    private Book[] books = new Book[MAX_BOOKS];
-    private Magazine[] magazines = new Magazine[MAX_MAGAZINE];
-    private int booksNumber = 0;
-    private int magazinesNumber = 0;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-    public void addBook(Book book) {
-        if (booksNumber < MAX_BOOKS) {
-            books[booksNumber] = book;
-            booksNumber++;
-        }else {
-            System.out.println("Maksymalna liczba książek została osiagnieta");
-        }
+public class Library implements Serializable {
+
+
+    private Map<String, Publication> publications = new HashMap<>();
+    private Map<String, LibraryUser> users = new HashMap<>();
+
+
+    public Map<String, Publication> getPublications() {
+        return publications;
     }
 
-    public void printBooks(){
-        if (booksNumber==0) {
-            System.out.println("Brak książek w bibliotece");
-        }
-        for (int i = 0; i < booksNumber; i++) {
-            books[i].printInfo();
-        }
+    public Map<String, LibraryUser> getUsers() {
+        return users;
     }
 
-    public void addMagazine(Magazine magazine) {
-        if (magazinesNumber < MAX_MAGAZINE) {
-            magazines[magazinesNumber] = magazine;
-            magazinesNumber++;
-        }else {
-            System.out.println("Maksymalna liczba magazynów została osiagnieta");
+    public void addPublication(Publication publication) {
+        if (publications.containsKey(publication.getTitle())) {
+            throw new PublicationAlreadyExistsException("Publikacja" +
+                    "o takim tytule już istnieje " + publication.getTitle());
         }
+        publications.put(publication.getTitle(), publication);
     }
 
-    public void printMagazines(){
-        if (magazinesNumber==0) {
-            System.out.println("Brak magazynów w bibliotece");
+    public void addUser(LibraryUser user) {
+        if (users.containsKey(user.getPesel())) {
+            throw new UserAlreadyExistsException( "Użytkownik ze " +
+                    "wskazanym peselem już istnieje "+ user.getPesel());
         }
-        for (int i = 0; i < magazinesNumber; i++) {
-            magazines[i].printInfo();
-        }
+        users.put(user.getPesel(), user);
     }
 
-
-
-
+    public boolean removePublication(Publication pub) {
+        if (publications.containsValue(pub)) {
+            publications.remove(pub.getTitle());
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

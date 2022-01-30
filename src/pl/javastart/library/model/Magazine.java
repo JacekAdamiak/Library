@@ -1,15 +1,18 @@
 package pl.javastart.library.model;
 
+import java.util.Objects;
+
 public class Magazine extends Publication {
+
+    public static final String TYPE = "Magazyn";
+
 
     private int month;
     private int day;
     private String language;
 
-    public Magazine(String title, String publisher, String language, int year, int month, int day) {
-        this.setTitle(title);
-        this.setPublisher(publisher);
-        this.setYear(year);
+    public Magazine(String title, String publisher, int year, int month, int day, String language) {
+        super(title, publisher, year);
         this.month = month;
         this.day = day;
         this.language = language;
@@ -39,10 +42,35 @@ public class Magazine extends Publication {
         this.language = language;
     }
 
-    public void printInfo() {
-        String info = getTitle() + " | " + getPublisher() + " | "
-                + getYear() + "-" + month
-                + "-" + day + " | " + language;
-        System.out.println(info);
+    @Override
+    public String toCsv() {
+        return TYPE + ";" +
+                getTitle() + ";" +
+                getPublisher() + ";" +
+                getYear() + ";" +
+                month + ";" +
+                day + ";" +
+                language;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " - " + month + " - " + day + " | " + language;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Magazine magazine = (Magazine) o;
+        return month == magazine.month &&
+                day == magazine.day &&
+                Objects.equals(language, magazine.language);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), month, day, language);
     }
 }

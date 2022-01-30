@@ -1,4 +1,5 @@
 package pl.javastart.library.model;
 
-public class CsvConvertible {
+public interface CsvConvertible {
+    String toCsv();
 }
