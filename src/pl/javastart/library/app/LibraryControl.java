@@ -17,6 +17,7 @@ public class LibraryControl {
     private DataReader dataReader = new DataReader(printer);
     private FileManager fileManager;
 
+
     private Library library;
 
     public LibraryControl() {
@@ -75,7 +76,9 @@ public class LibraryControl {
 
     private void printUsers() {
         printer.printUsers(library.getSortedUsers(
-                (p1, p2) -> p1.getLastName().compareToIgnoreCase(p2.getLastName())
+//                (p1, p2) -> p1.getLastName().compareToIgnoreCase(p2.getLastName())
+//                Comparator.comparing(user -> user.getLastName(), String.CASE_INSENSITIVE_ORDER)
+                Comparator.comparing(User::getLastName, String.CASE_INSENSITIVE_ORDER)
         ));
 
     }
@@ -107,7 +110,8 @@ public class LibraryControl {
 
     private void printMagazines() {
         printer.printMagazines(library.getSortedPublications(
-                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+//                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+                Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
         ));
     }
 
@@ -161,7 +165,8 @@ public class LibraryControl {
 
     private void printBooks() {
         printer.printBooks(library.getSortedPublications(
-                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+//                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+                Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
         ));
     }
 
