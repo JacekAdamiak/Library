@@ -10,25 +10,39 @@ import java.util.Collection;
 public class ConsolePrinter {
 
     public void printBooks(Collection<Publication> publications) {
-        int countBooks = 0;
+/**     int countBooks = 0;
         for (Publication publication : publications) {
             if (publication instanceof Book)
                 printLine(publication.toString());
             countBooks++;
-        }
+        }  */
+        long countBooks = publications.stream()
+                .filter(publication -> publication instanceof Book)
+                .map(publication -> publication.toString())
+                .peek(s -> printLine(s))
+                .count();
         if (countBooks == 0) {
             printLine("Brak książek w bibliotece");
         }
+
     }
 
+
+
     public void printMagazines(Collection<Publication> publications) {
-        int countMagazines = 0;
+/**     int countMagazines = 0;
         for (Publication publication : publications) {
             if (publication instanceof Magazine) {
                 printLine(publication.toString());
                 countMagazines++;
             }
-        }
+        }  */
+        long countMagazines = publications.stream()
+                .filter(publication -> publication instanceof Magazine)
+                .map(publication -> publication.toString())
+                .peek(s -> printLine(s))
+                .count();
+
         if (countMagazines == 0) {
             printLine("Brak magazynów w bibliotece");
         }
