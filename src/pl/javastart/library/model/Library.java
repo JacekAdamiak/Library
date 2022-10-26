@@ -23,6 +23,10 @@ public class Library implements Serializable {
         return list;
     }
 
+    public Optional<Publication> findPublicationByTitle(String title) {
+        return Optional.ofNullable(publications.get(title));
+    }
+
     public Map<String, LibraryUser> getUsers() {
         return users;
     }
@@ -43,8 +47,8 @@ public class Library implements Serializable {
 
     public void addUser(LibraryUser user) {
         if (users.containsKey(user.getPesel())) {
-            throw new UserAlreadyExistsException( "Użytkownik ze " +
-                    "wskazanym peselem już istnieje "+ user.getPesel());
+            throw new UserAlreadyExistsException("Użytkownik ze " +
+                    "wskazanym peselem już istnieje " + user.getPesel());
         }
         users.put(user.getPesel(), user);
     }
